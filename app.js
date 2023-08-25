@@ -81,6 +81,27 @@ async function ShowProfile() {
 
 ShowProfile();
 
+async function GetQuote() {
+    let res = await fetch("https://api.api-ninjas.com/v1/quotes", {
+        method: "GET",
+        headers: {
+            "X-Api-Key": config.MY_KEY,
+        },
+    });
+    let data = await res.json();
+    return data;
+}
+
+const quoteText = document.querySelectorAll(".quote-text");
+const quoteAuthor = document.querySelectorAll(".quote-author");
+async function ShowQuote() {
+    let data = await GetQuote();
+    quoteText[0].innerHTML = `"${data[0].quote}"`;
+    quoteAuthor[0].innerHTML = `${data[0].author}`;
+}
+
+ShowQuote();
+
 window.onbeforeunload = () => {
     window.scrollTo(0, 0);
 };
